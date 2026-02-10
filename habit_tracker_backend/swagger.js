@@ -10,6 +10,7 @@ const options = {
     },
     tags: [
       { name: 'System', description: 'Service endpoints' },
+      { name: 'Health', description: 'Health checks (service + database connectivity)' },
       { name: 'Auth', description: 'Authentication endpoints' },
       { name: 'Habits', description: 'Habit CRUD & listing' },
       { name: 'Completions', description: 'Mark/unmark completions' },

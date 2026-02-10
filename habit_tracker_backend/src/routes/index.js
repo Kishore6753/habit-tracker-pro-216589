@@ -1,5 +1,6 @@
 const express = require('express');
 const healthController = require('../controllers/health');
+const { query } = require('../db/query');
 
 const authRoutes = require('./auth');
 const habitsRoutes = require('./habits');
@@ -41,6 +42,31 @@ const router = express.Router();
  *                   example: development
  */
 router.get('/', healthController.check.bind(healthController));
+
+/**
+ * @swagger
+ * /healthz/db:
+ *   get:
+ *     tags: [Health]
+ *     summary: Database connectivity health check
+ *     description: Performs a lightweight `SELECT 1` against Postgres to validate DB connectivity.
+ *     responses:
+ *       200:
+ *         description: DB connection OK
+ *       500:
+ *         description: DB connection failed
+ */
+// PUBLIC_INTERFACE
+router.get('/healthz/db', async (_req, res, next) => {
+  /** Health check endpoint that verifies DB connectivity with a lightweight SELECT 1. */
+  try {
+    const started = Date.now();
+    await query('SELECT 1 AS ok');
+    return res.status(200).json({ status: 'ok', db: 'ok', latencyMs: Date.now() - started });
+  } catch (err) {
+    return next(err);
+  }
+});
 
 // Mount API routes
 router.use('/auth', authRoutes);

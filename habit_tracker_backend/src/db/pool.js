@@ -21,11 +21,12 @@ function buildPoolConfigFromEnv() {
   }
 
   // Otherwise compose from discrete variables.
-  // Host is not provided in the db_env_vars list; defaulting to localhost is typical in this environment.
-  // If your deployment uses a different host, set POSTGRES_HOST in the environment.
+  // In this environment the DB container runs on localhost:5001; keep defaults aligned,
+  // but still allow override via env vars.
   const host = process.env.POSTGRES_HOST || 'localhost';
 
-  const port = process.env.POSTGRES_PORT ? Number(process.env.POSTGRES_PORT) : undefined;
+  // IMPORTANT: do not hardcode 5000 anywhere; standardize on POSTGRES_PORT and default to 5001.
+  const port = process.env.POSTGRES_PORT ? Number(process.env.POSTGRES_PORT) : 5001;
 
   return {
     host,
