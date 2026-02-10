@@ -8,7 +8,8 @@
         "dev": "nodemon src/server.js",
         "test": "jest",
         "lint": "eslint .",
-        "generate:openapi": "node generate_openapi.js"
+        "generate:openapi": "node generate_openapi.js",
+        "smoke": "node scripts/smoke.js"
     },
     "dependencies": {
         "bcryptjs": "^3.0.3",
